@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Password Generator</title>
+    <meta name="description" content="Our first page">
+    <meta name="keywords" content="html tutorial template">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <span class="heading">Generate a</span>
+        <span class="random">Random Password</span>
+        
+            <div class="inputbox">
+                <input type="text" id="password" name="password" readonly placeholder="Password">
+                <button class="copy" onclick="copyPassword()">
+                    <i class='bx bx-copy' ></i>
+                </button>
+            </div>
+            <button id="generate" onclick="createPassword()">
+                <i class='bx bx-refresh'></i>
+                Generate password
+            </button>
+        
+    </div>
+
+    <script>
+        const passwordBox = document.getElementById("password");
+        
+        const length = 8;
+        const uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        const lowers = uppers.toLowerCase();
+        const numbers = "0123456789";
+        const symbols = "!@#$%^&*()_+-={}[]<>/"
+        const all = uppers + lowers + numbers + symbols;
+        function createPassword() {
+            let password ="";
+            password += uppers[Math.floor(Math.random() * uppers.length)];
+            password += lowers[Math.floor(Math.random() * lowers.length)];
+            password += numbers[Math.floor(Math.random() * numbers.length)];
+            password += symbols[Math.floor(Math.random() * symbols.length)];
+
+            while(password.length < length) {
+                password += all[Math.floor(Math.random() * all.length)];
+            }
+            passwordBox.value = password;
+        }
+        function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+        function copyPassword() {
+            navigator.clipboard.writeText(passwordBox.value).then(() => {
+            console.log('Content copied to clipboard');
+            },() => {
+            console.error('Failed to copy');
+
+            });
+            passwordBox.style.border = "4px solid #01a57a";
+            sleep(3000).then(() => { passwordBox.style.border = "none"; });
+            
+        }
+        
+
+    </script>
+</body>
+</html>
